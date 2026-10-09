@@ -196,7 +196,7 @@
     letter-spacing: 2px;
     margin-bottom: 8px;
   }
-  #adminInput {
+  #adminInput, #wheelAdminInput {
     background: #001a00;
     border: 1px solid #0a0;
     color: #0f0;
@@ -208,8 +208,8 @@
     width: 140px;
     outline: none;
   }
-  #adminInput:focus { box-shadow: 0 0 10px #0a0; }
-  #adminBtn {
+  #adminInput:focus, #wheelAdminInput:focus { box-shadow: 0 0 10px #0a0; }
+  #adminBtn, #wheelAdminBtn {
     background: #001a00;
     border: 1px solid #0a0;
     color: #0a0;
@@ -220,8 +220,8 @@
     letter-spacing: 2px;
     margin-left: 6px;
   }
-  #adminBtn:hover { background: #0a0; color: #000; }
-  #adminResult {
+  #adminBtn:hover, #wheelAdminBtn:hover { background: #0a0; color: #000; }
+  #adminResult, #wheelAdminResult {
     margin-top: 8px;
     color: #ff0;
     letter-spacing: 2px;
@@ -298,7 +298,7 @@
   #rickOverlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.95);
+    background: rgba(0,0,0,0.97);
     z-index: 10000;
     display: flex;
     flex-direction: column;
@@ -308,10 +308,11 @@
     padding: 20px;
   }
   #rickFrame {
-    width: min(90vw, 800px);
-    height: min(50vw, 450px);
+    width: min(95vw, 900px);
+    height: min(60vw, 550px);
     border: 2px solid #f0f;
     box-shadow: 0 0 40px #f0f;
+    background: #000;
   }
   #rickOverlay h2 {
     color: #f0f;
@@ -358,9 +359,9 @@
   <input type="text" id="codeInput" maxlength="6" inputmode="numeric" autocomplete="off" placeholder="000000">
   <button class="action-btn" id="codeBtn">BEKREFT</button>
 
-  <!-- ADMIN-BOKS -->
+  <!-- ADMIN-BOKS (kode) -->
   <div class="admin-box">
-    <label>[ ADMIN OVERRIDE ]</label>
+    <label>[ ADMIN OVERRIDE // KODE ]</label>
     <input type="text" id="adminInput" placeholder="kode" autocomplete="off">
     <button id="adminBtn">LÅS OPP</button>
     <div id="adminResult"></div>
@@ -384,6 +385,14 @@
   </div>
   <button class="action-btn" id="spinBtn">SPINN</button>
   <div id="wheelResult"></div>
+
+  <!-- ADMIN-BOKS (wheel) -->
+  <div class="admin-box">
+    <label>[ ADMIN OVERRIDE // RIGG WHEEL ]</label>
+    <input type="text" id="wheelAdminInput" placeholder="kode" autocomplete="off">
+    <button id="wheelAdminBtn">RIGG</button>
+    <div id="wheelAdminResult"></div>
+  </div>
 </div>
 
 <!-- WIN-PANEL -->
@@ -420,6 +429,8 @@
   const VINN_SEKTOR = "1 MILL";
   const WHEEL_VINN_SJANSE = 0.04;
 
+  let rigget = false; // styrer om neste spinn er rigget til 1 MILL
+
   // ==== KNAPPER ====
   const grid = document.getElementById('buttonGrid');
   const status = document.getElementById('status');
@@ -435,7 +446,7 @@
 
       if (i === RICKROLL_KNAPP) {
         b.classList.add('rick');
-        showRickroll(); // Trigger direkte fra brukerklikk → autoplay med lyd funker
+        showRickroll();
         return;
       }
 
@@ -465,9 +476,8 @@
     grid.appendChild(b);
   }
 
-  // ==== RICKROLL OVERLAY — autoplay MED lyd (via brukerklikk) ====
+  // ==== RICKROLL OVERLAY — autoplay med lyd via brukerklikk ====
   function showRickroll() {
-    // Fjern evt. eksisterende overlay først
     const existing = document.getElementById('rickOverlay');
     if (existing) existing.remove();
 
@@ -482,8 +492,8 @@
     iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
     iframe.setAttribute('allowfullscreen', '');
     iframe.setAttribute('frameborder', '0');
-    // autoplay=1 + mute=0 → siden dette skjer rett etter et brukerklikk, slipper lyden gjennom
-    iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1';
+    // rickroll.it som nettside — autoplay skjer rett etter brukerklikk
+    iframe.src = 'https://rickroll.it/';
 
     const p = document.createElement('p');
     p.textContent = '>> du ble rickrollet. prøv en annen knapp <<';
@@ -544,7 +554,7 @@
     if (e.key === 'Enter') codeBtn.click();
   });
 
-  // ==== ADMIN ====
+  // ==== ADMIN (kode) ====
   const adminInput = document.getElementById('adminInput');
   const adminBtn = document.getElementById('adminBtn');
   const adminResult = document.getElementById('adminResult');
@@ -559,10 +569,31 @@
       adminResult.style.color = '#f00';
     }
   }
-
   adminBtn.addEventListener('click', runAdmin);
   adminInput.addEventListener('keydown', e => {
     if (e.key === 'Enter') runAdmin();
+  });
+
+  // ==== ADMIN (wheel — rigg til 1 MILL) ====
+  const wheelAdminInput = document.getElementById('wheelAdminInput');
+  const wheelAdminBtn = document.getElementById('wheelAdminBtn');
+  const wheelAdminResult = document.getElementById('wheelAdminResult');
+
+  function runWheelAdmin() {
+    if (wheelAdminInput.value.trim().toLowerCase() === ADMIN_KODE) {
+      rigget = true;
+      wheelAdminResult.textContent = '>> WHEEL RIGGET → 1 MILL <<';
+      wheelAdminResult.style.color = '#0f0';
+      wheelStatus.textContent = '>> NESTE SPINN LANDER PÅ 1 MILL <<';
+      wheelStatus.className = 'good';
+    } else {
+      wheelAdminResult.textContent = '>> FEIL ADMIN-KODE <<';
+      wheelAdminResult.style.color = '#f00';
+    }
+  }
+  wheelAdminBtn.addEventListener('click', runWheelAdmin);
+  wheelAdminInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') runWheelAdmin();
   });
 
   // ==== WHEEL ====
@@ -623,8 +654,14 @@
     wheelResult.textContent = '';
 
     let targetIndex;
-    if (Math.random() < WHEEL_VINN_SJANSE) {
+    if (rigget || Math.random() < WHEEL_VINN_SJANSE) {
+      // Rigget ELLER heldig → land på 1 MILL
       targetIndex = WHEEL_SEKTORER.indexOf(VINN_SEKTOR);
+      if (rigget) {
+        rigget = false; // bruk riggen én gang
+        wheelAdminResult.textContent = '>> RIGG BRUKT <<';
+        wheelAdminResult.style.color = '#0a0';
+      }
     } else {
       const ikkeVinn = WHEEL_SEKTORER
         .map((s, idx) => ({ s, idx }))
