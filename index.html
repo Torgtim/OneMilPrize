@@ -429,7 +429,7 @@
   const VINN_SEKTOR = "1 MILL";
   const WHEEL_VINN_SJANSE = 0.04;
 
-  let rigget = false; // styrer om neste spinn er rigget til 1 MILL
+  let rigget = false;
 
   // ==== KNAPPER ====
   const grid = document.getElementById('buttonGrid');
@@ -476,7 +476,7 @@
     grid.appendChild(b);
   }
 
-  // ==== RICKROLL OVERLAY — autoplay med lyd via brukerklikk ====
+  // ==== RICKROLL OVERLAY — rickroll.it som iframe-nettside ====
   function showRickroll() {
     const existing = document.getElementById('rickOverlay');
     if (existing) existing.remove();
@@ -489,10 +489,10 @@
 
     const iframe = document.createElement('iframe');
     iframe.id = 'rickFrame';
-    iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+    iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
     iframe.setAttribute('allowfullscreen', '');
     iframe.setAttribute('frameborder', '0');
-    // rickroll.it som nettside — autoplay skjer rett etter brukerklikk
+    // rickroll.it — nettsiden med video. Autoplay skjer rett etter brukerklikk.
     iframe.src = 'https://rickroll.it/';
 
     const p = document.createElement('p');
@@ -655,10 +655,9 @@
 
     let targetIndex;
     if (rigget || Math.random() < WHEEL_VINN_SJANSE) {
-      // Rigget ELLER heldig → land på 1 MILL
       targetIndex = WHEEL_SEKTORER.indexOf(VINN_SEKTOR);
       if (rigget) {
-        rigget = false; // bruk riggen én gang
+        rigget = false;
         wheelAdminResult.textContent = '>> RIGG BRUKT <<';
         wheelAdminResult.style.color = '#0a0';
       }
