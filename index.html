@@ -6,11 +6,7 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
     background: #000;
@@ -91,7 +87,6 @@
     min-height: 22px;
     letter-spacing: 1px;
   }
-
   #status.warn { color: #ff0; text-shadow: 0 0 8px #ff0; }
   #status.bad  { color: #f00; text-shadow: 0 0 8px #f00; }
   #status.good { color: #0f0; text-shadow: 0 0 8px #0f0; }
@@ -121,39 +116,30 @@
     text-shadow: none;
     box-shadow: 0 0 12px #0f0;
   }
-
   .btn:active { transform: scale(0.95); }
-
-  .btn:disabled {
-    opacity: 0.25;
-    cursor: not-allowed;
-    filter: grayscale(0.5);
-  }
-
-  .btn:disabled:hover {
-    background: #001a00;
-    color: #0f0;
-    box-shadow: none;
-  }
-
+  .btn:disabled { opacity: 0.25; cursor: not-allowed; filter: grayscale(0.5); }
+  .btn:disabled:hover { background: #001a00; color: #0f0; box-shadow: none; }
   .btn.correct {
     background: #0f0 !important;
     color: #000 !important;
     box-shadow: 0 0 20px #0f0 !important;
   }
-
   .btn.wrong {
     background: #300 !important;
     border-color: #f00 !important;
     color: #f00 !important;
     text-shadow: 0 0 4px #f00 !important;
   }
+  .btn.rick {
+    background: #200 !important;
+    border-color: #f0f !important;
+    color: #f0f !important;
+    text-shadow: 0 0 6px #f0f !important;
+  }
 
   .hidden { display: none !important; }
 
-  #codeSection, #wheelSection, #winSection {
-    text-align: center;
-  }
+  #codeSection, #wheelSection, #winSection { text-align: center; }
 
   #codeInput {
     background: #001a00;
@@ -171,10 +157,7 @@
     text-shadow: 0 0 8px #0f0;
     box-shadow: inset 0 0 15px rgba(0,255,0,0.2);
   }
-
-  #codeInput:focus {
-    box-shadow: 0 0 20px #0f0, inset 0 0 15px rgba(0,255,0,0.3);
-  }
+  #codeInput:focus { box-shadow: 0 0 20px #0f0, inset 0 0 15px rgba(0,255,0,0.3); }
 
   .action-btn {
     background: #001a00;
@@ -189,23 +172,61 @@
     transition: all 0.15s;
     margin: 8px;
   }
-
   .action-btn:hover {
     background: #0f0;
     color: #000;
     text-shadow: none;
     box-shadow: 0 0 20px #0f0;
   }
+  .action-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .action-btn:disabled:hover { background: #001a00; color: #0f0; box-shadow: none; }
 
-  .action-btn:disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
+  /* ADMIN-BOKS */
+  .admin-box {
+    margin-top: 25px;
+    padding: 12px;
+    border: 1px dashed #0a0;
+    background: rgba(0,30,0,0.3);
+    text-align: center;
+    font-size: 0.8rem;
   }
-
-  .action-btn:disabled:hover {
+  .admin-box label {
+    display: block;
+    color: #0a0;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  #adminInput {
     background: #001a00;
+    border: 1px solid #0a0;
     color: #0f0;
-    box-shadow: none;
+    font-family: inherit;
+    font-size: 1rem;
+    letter-spacing: 4px;
+    text-align: center;
+    padding: 6px 10px;
+    width: 140px;
+    outline: none;
+  }
+  #adminInput:focus { box-shadow: 0 0 10px #0a0; }
+  #adminBtn {
+    background: #001a00;
+    border: 1px solid #0a0;
+    color: #0a0;
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 7px 14px;
+    cursor: pointer;
+    letter-spacing: 2px;
+    margin-left: 6px;
+  }
+  #adminBtn:hover { background: #0a0; color: #000; }
+  #adminResult {
+    margin-top: 8px;
+    color: #ff0;
+    letter-spacing: 2px;
+    min-height: 18px;
+    font-size: 0.85rem;
   }
 
   /* WHEEL */
@@ -215,7 +236,6 @@
     height: 320px;
     margin: 20px auto;
   }
-
   .wheel-pointer {
     position: absolute;
     top: -12px;
@@ -226,7 +246,6 @@
     text-shadow: 0 0 12px #f00;
     z-index: 10;
   }
-
   #wheel {
     width: 100%;
     height: 100%;
@@ -237,9 +256,7 @@
     position: relative;
     overflow: hidden;
   }
-
   #wheel svg { width: 100%; height: 100%; display: block; }
-
   #wheelResult {
     margin-top: 15px;
     font-size: 1.2rem;
@@ -255,12 +272,10 @@
     animation: pulse 1.5s infinite;
     margin: 20px 0;
   }
-
   @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.08); }
   }
-
   .ascii {
     color: #0f0;
     font-size: 0.8rem;
@@ -269,21 +284,59 @@
     margin: 20px 0;
     text-shadow: 0 0 6px #0f0;
   }
-
   .blink { animation: blink 1s step-end infinite; }
   @keyframes blink { 50% { opacity: 0; } }
-
-  .cursor::after {
-    content: "_";
-    animation: blink 1s step-end infinite;
-  }
-
+  .cursor::after { content: "_"; animation: blink 1s step-end infinite; }
   .screenshot-note {
     color: #0a0;
     font-size: 0.75rem;
     margin-top: 25px;
     letter-spacing: 2px;
   }
+
+  /* RICKROLL OVERLAY */
+  #rickOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+  }
+  #rickOverlay iframe {
+    width: min(90vw, 800px);
+    height: min(50vw, 450px);
+    border: 2px solid #f0f;
+    box-shadow: 0 0 40px #f0f;
+  }
+  #rickOverlay h2 {
+    color: #f0f;
+    text-shadow: 0 0 15px #f0f;
+    letter-spacing: 6px;
+    margin-bottom: 15px;
+    font-size: 1.8rem;
+  }
+  #rickOverlay p {
+    color: #f0f;
+    margin-top: 15px;
+    letter-spacing: 2px;
+  }
+  #rickClose {
+    margin-top: 20px;
+    background: #200;
+    border: 1px solid #f0f;
+    color: #f0f;
+    font-family: inherit;
+    padding: 10px 25px;
+    cursor: pointer;
+    letter-spacing: 3px;
+    font-size: 0.9rem;
+  }
+  #rickClose:hover { background: #f0f; color: #000; }
 </style>
 </head>
 <body>
@@ -304,6 +357,14 @@
   </div>
   <input type="text" id="codeInput" maxlength="6" inputmode="numeric" autocomplete="off" placeholder="000000">
   <button class="action-btn" id="codeBtn">BEKREFT</button>
+
+  <!-- ADMIN-BOKS -->
+  <div class="admin-box">
+    <label>[ ADMIN OVERRIDE ]</label>
+    <input type="text" id="adminInput" placeholder="kode" autocomplete="off">
+    <button id="adminBtn">LÅS OPP</button>
+    <div id="adminResult"></div>
+  </div>
 </div>
 
 <!-- WHEEL-PANEL -->
@@ -315,7 +376,6 @@
     <div class="wheel-pointer">▼</div>
     <div id="wheel">
       <svg viewBox="0 0 200 200">
-        <!-- 8 sektorer -->
         <g id="wheelSlices"></g>
         <circle cx="100" cy="100" r="75" fill="none" stroke="#0f0" stroke-width="2"/>
         <circle cx="100" cy="100" r="15" fill="#000" stroke="#0f0" stroke-width="2"/>
@@ -345,10 +405,20 @@
 <script>
 (function() {
   // ==== KONFIGURASJON ====
-  const RIKTIG_KNAPP = Math.floor(Math.random() * 48); // 0-47
+  const ANTALL_KNAPPER = 48;
+  const RIKTIG_KNAPP = Math.floor(Math.random() * ANTALL_KNAPPER);
+  const RICKROLL_KNAPP = (() => {
+    let r = Math.floor(Math.random() * ANTALL_KNAPPER);
+    if (r === RIKTIG_KNAPP) r = (r + 1) % ANTALL_KNAPPER;
+    return r;
+  })();
+
   const RIKTIG_KODE  = String(Math.floor(100000 + Math.random() * 900000));
+  const ADMIN_KODE   = 'abc';
+
   const WHEEL_SEKTORER = ["INGEN PREMIE", "PRØV IGJEN", "NESTEN", "1 MILL", "0 KR", "BONUS", "TAP", "JACKPOT"];
-  const VINN_SEKTOR = "1 MILL"; // må lande her for å vinne
+  const VINN_SEKTOR = "1 MILL";
+  const WHEEL_VINN_SJANSE = 0.04; // 4 % sjanse per spinn
 
   // ==== KNAPPER ====
   const grid = document.getElementById('buttonGrid');
@@ -356,18 +426,25 @@
   const buttonsPanel = document.getElementById('buttonsPanel');
   let funnet = false;
 
-  for (let i = 0; i < 48; i++) {
+  for (let i = 0; i < ANTALL_KNAPPER; i++) {
     const b = document.createElement('button');
     b.className = 'btn';
     b.textContent = 'BTN_' + String(i).padStart(2, '0');
     b.addEventListener('click', () => {
       if (funnet || b.disabled) return;
+
+      // RICKROLL-KNAPP
+      if (i === RICKROLL_KNAPP) {
+        b.classList.add('rick');
+        showRickroll();
+        return;
+      }
+
       if (i === RIKTIG_KNAPP) {
         b.classList.add('correct');
         funnet = true;
         status.textContent = '>> TILGANG INNVILGET <<';
         status.className = 'good';
-        // deaktiver alle
         document.querySelectorAll('.btn').forEach(x => x.disabled = true);
         setTimeout(() => {
           buttonsPanel.classList.add('hidden');
@@ -378,7 +455,6 @@
         b.disabled = true;
         status.textContent = '>> FEIL KODE. PRØV IGJEN <<';
         status.className = 'bad';
-        // liten shake-effekt
         b.animate([
           { transform: 'translateX(0)' },
           { transform: 'translateX(-4px)' },
@@ -388,6 +464,28 @@
       }
     });
     grid.appendChild(b);
+  }
+
+  // ==== RICKROLL OVERLAY ====
+  function showRickroll() {
+    const overlay = document.createElement('div');
+    overlay.id = 'rickOverlay';
+    overlay.innerHTML = `
+      <h2>>> NEVER GONNA GIVE YOU UP <<</h2>
+      <iframe
+        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+        allow="autoplay; encrypted-media"
+        allowfullscreen
+        frameborder="0">
+      </iframe>
+      <p>>> du ble rickrollet. prøv en annen knapp <<</p>
+      <button id="rickClose">LUKK</button>
+    `;
+    document.body.appendChild(overlay);
+
+    overlay.querySelector('#rickClose').addEventListener('click', () => {
+      overlay.remove();
+    });
   }
 
   // ==== KODE ====
@@ -434,6 +532,27 @@
     if (e.key === 'Enter') codeBtn.click();
   });
 
+  // ==== ADMIN ====
+  const adminInput = document.getElementById('adminInput');
+  const adminBtn = document.getElementById('adminBtn');
+  const adminResult = document.getElementById('adminResult');
+
+  function runAdmin() {
+    if (adminInput.value.trim().toLowerCase() === ADMIN_KODE) {
+      adminResult.textContent = '>> KODE: ' + RIKTIG_KODE + ' <<';
+      adminResult.style.color = '#0f0';
+      codeInput.value = RIKTIG_KODE;
+    } else {
+      adminResult.textContent = '>> FEIL ADMIN-KODE <<';
+      adminResult.style.color = '#f00';
+    }
+  }
+
+  adminBtn.addEventListener('click', runAdmin);
+  adminInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') runAdmin();
+  });
+
   // ==== WHEEL ====
   const wheelSlicesGroup = document.getElementById('wheelSlices');
   const wheel = document.getElementById('wheel');
@@ -444,9 +563,8 @@
 
   const N = WHEEL_SEKTORER.length;
   const anglePer = 360 / N;
-
-  // Tegn sektorer
   const colors = ['#001a00','#002200','#003300','#004400','#005500','#006600','#007700','#008800'];
+
   for (let i = 0; i < N; i++) {
     const start = i * anglePer - 90;
     const end = start + anglePer;
@@ -465,7 +583,6 @@
     path.setAttribute('stroke-width', '0.6');
     wheelSlicesGroup.appendChild(path);
 
-    // Tekst
     const midAngle = (start + end) / 2;
     const tx = cx + (r * 0.62) * Math.cos(midAngle * Math.PI / 180);
     const ty = cy + (r * 0.62) * Math.sin(midAngle * Math.PI / 180);
@@ -493,20 +610,16 @@
     wheelStatus.className = 'cursor';
     wheelResult.textContent = '';
 
-    // Velg en tilfeldig vinner-sektor. For story: la det alltid lande på "1 MILL" etter noen forsøk? 
-    // Vi gir 1/3 sjanse for premie, ellers prøv igjen. Men siden "spillet" skal ende med seier, tvinger vi etter 2 forsøk.
-    if (!window._spinCount) window._spinCount = 0;
-    window._spinCount++;
-
+    // LIITTTEN sjanse for premie (4 %). Ellers tilfeldig ikke-premie.
     let targetIndex;
-    if (window._spinCount >= 3) {
+    if (Math.random() < WHEEL_VINN_SJANSE) {
       targetIndex = WHEEL_SEKTORER.indexOf(VINN_SEKTOR);
     } else {
-      targetIndex = Math.floor(Math.random() * N);
-      // ikke la det bli vinn med en gang (for spenning)
-      if (WHEEL_SEKTORER[targetIndex] === VINN_SEKTOR && window._spinCount < 3) {
-        targetIndex = (targetIndex + 1) % N;
-      }
+      // velg tilfeldig blant ikke-vinn-sektorer
+      const ikkeVinn = WHEEL_SEKTORER
+        .map((s, idx) => ({ s, idx }))
+        .filter(x => x.s !== VINN_SEKTOR);
+      targetIndex = ikkeVinn[Math.floor(Math.random() * ikkeVinn.length)].idx;
     }
 
     const targetAngle = 360 - (targetIndex * anglePer + anglePer / 2);
