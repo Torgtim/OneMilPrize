@@ -307,7 +307,7 @@
     text-align: center;
     padding: 20px;
   }
-  #rickOverlay iframe {
+  #rickFrame {
     width: min(90vw, 800px);
     height: min(50vw, 450px);
     border: 2px solid #f0f;
@@ -416,9 +416,9 @@
   const RIKTIG_KODE  = String(Math.floor(100000 + Math.random() * 900000));
   const ADMIN_KODE   = 'abc';
 
-  const WHEEL_SEKTORER = ["INGEN PREMIE", "PRØV IGJEN", "NESTEN", "1 MILL", "0 KR", "BONUS", "TAP", "JACKPOT"];
+  const WHEEL_SEKTORER = ["INGEN PREMIE", "PRØV IGJEN", "NESTEN", "1 MILL", "0 KR", "SÅ NÆRE", "TAP", "BEDRAGERI"];
   const VINN_SEKTOR = "1 MILL";
-  const WHEEL_VINN_SJANSE = 0.04; // 4 % sjanse per spinn
+  const WHEEL_VINN_SJANSE = 0.04;
 
   // ==== KNAPPER ====
   const grid = document.getElementById('buttonGrid');
@@ -433,10 +433,9 @@
     b.addEventListener('click', () => {
       if (funnet || b.disabled) return;
 
-      // RICKROLL-KNAPP
       if (i === RICKROLL_KNAPP) {
         b.classList.add('rick');
-        showRickroll();
+        showRickroll(); // Trigger direkte fra brukerklikk → autoplay med lyd funker
         return;
       }
 
@@ -466,26 +465,39 @@
     grid.appendChild(b);
   }
 
-  // ==== RICKROLL OVERLAY ====
+  // ==== RICKROLL OVERLAY — autoplay MED lyd (via brukerklikk) ====
   function showRickroll() {
+    // Fjern evt. eksisterende overlay først
+    const existing = document.getElementById('rickOverlay');
+    if (existing) existing.remove();
+
     const overlay = document.createElement('div');
     overlay.id = 'rickOverlay';
-    overlay.innerHTML = `
-      <h2>>> NEVER GONNA GIVE YOU UP <<</h2>
-      <iframe
-        src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-        frameborder="0">
-      </iframe>
-      <p>>> du ble rickrollet. prøv en annen knapp <<</p>
-      <button id="rickClose">LUKK</button>
-    `;
-    document.body.appendChild(overlay);
 
-    overlay.querySelector('#rickClose').addEventListener('click', () => {
-      overlay.remove();
-    });
+    const h2 = document.createElement('h2');
+    h2.textContent = '>>> NEVER GONNA GIVE YOU UP <<';
+
+    const iframe = document.createElement('iframe');
+    iframe.id = 'rickFrame';
+    iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.setAttribute('frameborder', '0');
+    // autoplay=1 + mute=0 → siden dette skjer rett etter et brukerklikk, slipper lyden gjennom
+    iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=0&rel=0&modestbranding=1&playsinline=1';
+
+    const p = document.createElement('p');
+    p.textContent = '>> du ble rickrollet. prøv en annen knapp <<';
+
+    const closeBtn = document.createElement('button');
+    closeBtn.id = 'rickClose';
+    closeBtn.textContent = 'LUKK';
+    closeBtn.addEventListener('click', () => overlay.remove());
+
+    overlay.appendChild(h2);
+    overlay.appendChild(iframe);
+    overlay.appendChild(p);
+    overlay.appendChild(closeBtn);
+    document.body.appendChild(overlay);
   }
 
   // ==== KODE ====
@@ -610,12 +622,10 @@
     wheelStatus.className = 'cursor';
     wheelResult.textContent = '';
 
-    // LIITTTEN sjanse for premie (4 %). Ellers tilfeldig ikke-premie.
     let targetIndex;
     if (Math.random() < WHEEL_VINN_SJANSE) {
       targetIndex = WHEEL_SEKTORER.indexOf(VINN_SEKTOR);
     } else {
-      // velg tilfeldig blant ikke-vinn-sektorer
       const ikkeVinn = WHEEL_SEKTORER
         .map((s, idx) => ({ s, idx }))
         .filter(x => x.s !== VINN_SEKTOR);
