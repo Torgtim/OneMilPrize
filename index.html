@@ -293,51 +293,6 @@
     margin-top: 25px;
     letter-spacing: 2px;
   }
-
-  /* RICKROLL OVERLAY */
-  #rickOverlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.97);
-    z-index: 10000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-  }
-  #rickFrame {
-    width: min(95vw, 900px);
-    height: min(60vw, 550px);
-    border: 2px solid #f0f;
-    box-shadow: 0 0 40px #f0f;
-    background: #000;
-  }
-  #rickOverlay h2 {
-    color: #f0f;
-    text-shadow: 0 0 15px #f0f;
-    letter-spacing: 6px;
-    margin-bottom: 15px;
-    font-size: 1.8rem;
-  }
-  #rickOverlay p {
-    color: #f0f;
-    margin-top: 15px;
-    letter-spacing: 2px;
-  }
-  #rickClose {
-    margin-top: 20px;
-    background: #200;
-    border: 1px solid #f0f;
-    color: #f0f;
-    font-family: inherit;
-    padding: 10px 25px;
-    cursor: pointer;
-    letter-spacing: 3px;
-    font-size: 0.9rem;
-  }
-  #rickClose:hover { background: #f0f; color: #000; }
 </style>
 </head>
 <body>
@@ -476,38 +431,9 @@
     grid.appendChild(b);
   }
 
-  // ==== RICKROLL OVERLAY — rickroll.it som iframe-nettside ====
+  // ==== RICKROLL — redirect til rickroll.it ====
   function showRickroll() {
-    const existing = document.getElementById('rickOverlay');
-    if (existing) existing.remove();
-
-    const overlay = document.createElement('div');
-    overlay.id = 'rickOverlay';
-
-    const h2 = document.createElement('h2');
-    h2.textContent = '>>> NEVER GONNA GIVE YOU UP <<';
-
-    const iframe = document.createElement('iframe');
-    iframe.id = 'rickFrame';
-    iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture; fullscreen');
-    iframe.setAttribute('allowfullscreen', '');
-    iframe.setAttribute('frameborder', '0');
-    // rickroll.it — nettsiden med video. Autoplay skjer rett etter brukerklikk.
-    iframe.src = 'https://rickroll.it/';
-
-    const p = document.createElement('p');
-    p.textContent = '>> du ble rickrollet. prøv en annen knapp <<';
-
-    const closeBtn = document.createElement('button');
-    closeBtn.id = 'rickClose';
-    closeBtn.textContent = 'LUKK';
-    closeBtn.addEventListener('click', () => overlay.remove());
-
-    overlay.appendChild(h2);
-    overlay.appendChild(iframe);
-    overlay.appendChild(p);
-    overlay.appendChild(closeBtn);
-    document.body.appendChild(overlay);
+    window.location.href = 'https://rickroll.it/';
   }
 
   // ==== KODE ====
